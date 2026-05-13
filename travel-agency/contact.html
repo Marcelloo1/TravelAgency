@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt | TravelAgency</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f1623;
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* NAV */
+        header { background: #1a2236; border-bottom: 1px solid #2a3450; position: sticky; top: 0; z-index: 100; }
+        nav { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; height: 62px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { font-size: 1.2rem; font-weight: 700; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .nav-logo span { color: #4a90e2; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: #a0aec0; text-decoration: none; font-size: 0.95rem; transition: color .2s; }
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+        .nav-btn { background: #4a90e2; color: #fff; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.9rem; cursor: pointer; text-decoration: none; transition: background .2s; }
+        .nav-btn:hover { background: #357abd; }
+
+        /* PAGE HEADER */
+        .page-hero { background: linear-gradient(135deg, #1a2236 0%, #0f1623 100%); border-bottom: 1px solid #2a3450; padding: 3rem 1.5rem 2.5rem; text-align: center; }
+        .breadcrumb { font-size: 0.82rem; color: #4a90e2; margin-bottom: 0.75rem; }
+        .breadcrumb a { color: #4a90e2; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .page-hero h1 { font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+        .page-hero p { color: #a0aec0; font-size: 0.95rem; }
+
+        /* MAIN LAYOUT */
+        main { flex: 1; max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem 4rem; width: 100%; display: grid; grid-template-columns: 1fr 380px; gap: 2rem; align-items: start; }
+
+        /* FORMULARZ */
+        .contact-form-section { background: #1a2236; border: 1px solid #2a3450; border-radius: 14px; padding: 2rem; }
+        .contact-form-section h2 { font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 1.5rem; }
+        label { display: block; font-size: 0.83rem; color: #a0aec0; margin-bottom: 5px; margin-top: 14px; }
+        label:first-of-type { margin-top: 0; }
+        input[type="text"], input[type="email"], textarea, select {
+            width: 100%; padding: 10px 13px; background: #0f1623; border: 1px solid #2a3450;
+            border-radius: 8px; font-size: 0.93rem; color: #e2e8f0; font-family: inherit;
+            transition: border-color .2s;
+        }
+        input[type="text"]:focus, input[type="email"]:focus, textarea:focus, select:focus { outline: none; border-color: #4a90e2; }
+        textarea { resize: vertical; min-height: 130px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .btn-submit { margin-top: 1.25rem; padding: 11px 28px; background: #4a90e2; color: #fff; border: none; border-radius: 8px; font-size: 0.97rem; font-weight: 600; cursor: pointer; transition: background .2s; }
+        .btn-submit:hover { background: #357abd; }
+        .form-success { background: rgba(30,132,73,0.15); border: 1px solid rgba(30,132,73,0.35); color: #68d391; padding: 10px 13px; border-radius: 8px; font-size: 0.88rem; margin-bottom: 1rem; display: none; }
+
+        /* DANE KONTAKTOWE */
+        .contact-info { display: flex; flex-direction: column; gap: 1rem; }
+        .info-card { background: #1a2236; border: 1px solid #2a3450; border-radius: 12px; padding: 1.25rem 1.5rem; display: flex; align-items: flex-start; gap: 1rem; transition: border-color .2s; }
+        .info-card:hover { border-color: #4a90e2; }
+        .info-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+        .info-card h3 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: .06em; color: #4a90e2; margin-bottom: 0.3rem; }
+        .info-card p { font-size: 0.93rem; color: #a0aec0; line-height: 1.6; }
+        .info-card a { color: #a0aec0; text-decoration: none; }
+        .info-card a:hover { color: #fff; }
+
+        /* CANVAS MAPA */
+        .map-card { background: #1a2236; border: 1px solid #2a3450; border-radius: 12px; overflow: hidden; }
+        .map-card canvas { display: block; width: 100%; height: 200px; }
+
+        /* FOOTER */
+        footer { background: #1a2236; border-top: 1px solid #2a3450; }
+        .footer-inner { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 1.5rem; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; }
+        .footer-brand p { color: #718096; font-size: 0.88rem; line-height: 1.6; margin-top: 0.5rem; }
+        .footer-col h4 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: .07em; color: #4a90e2; margin-bottom: 0.75rem; }
+        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+        .footer-col a { color: #718096; text-decoration: none; font-size: 0.88rem; transition: color .2s; }
+        .footer-col a:hover { color: #fff; }
+        .footer-bottom { text-align: center; padding: 1rem 1.5rem; border-top: 1px solid #2a3450; font-size: 0.82rem; color: #4a5568; }
+        .social-links { display: flex; gap: 0.75rem; margin-top: 0.25rem; }
+        .social-links a { color: #718096; font-size: 1.1rem; text-decoration: none; transition: color .2s; }
+        .social-links a:hover { color: #4a90e2; }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="index.html" class="nav-logo">✈ <span>Travel</span>Agency</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Strona główna</a></li>
+            <li><a href="offers.html">Oferty</a></li>
+            <li><a href="contact.html" class="active">Kontakt</a></li>
+            <li><a href="statute.html">Regulamin</a></li>
+            <li><a href="profile.php">Profil</a></li>
+        </ul>
+        <a href="logout.php" class="nav-btn">Wyloguj</a>
+    </nav>
+</header>
+
+<div class="page-hero">
+    <h1>Skontaktuj się z nami</h1>
+    <p>Chętnie odpowiemy na wszystkie pytania dotyczące ofert i rezerwacji</p>
+</div>
+
+<main>
+    <section class="contact-form-section">
+        <h2>Wyślij wiadomość</h2>
+
+        <div class="form-success" id="formSuccess">Wiadomość została wysłana! Odezwiemy się wkrótce.</div>
+
+        <form id="contactForm" novalidate>
+            <div class="form-row">
+                <div>
+                    <label for="name">Imię i nazwisko</label>
+                    <input type="text" id="name" name="name" placeholder="Jan Kowalski" required>
+                </div>
+                <div>
+                    <label for="email">Adres e-mail</label>
+                    <input type="email" id="email" name="email" placeholder="jan@example.com" required>
+                </div>
+            </div>
+
+            <label for="subject">Temat wiadomości</label>
+            <input type="text" id="subject" name="subject" placeholder="Zapytanie o ofertę..." required>
+
+            <label for="message">Treść wiadomości</label>
+            <textarea id="message" name="message" placeholder="Opisz, w czym możemy pomóc..." required></textarea>
+
+            <button type="submit" class="btn-submit">Wyślij wiadomość</button>
+        </form>
+    </section>
+
+    <section class="contact-info">
+
+        <div class="info-card">
+            <div>
+                <h3>Adres biura</h3>
+                <p>ul. Podróżnicza 15<br>00-001 Warszawa</p>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div>
+                <h3>Telefon</h3>
+                <p><a href="tel:+48221234567">+48 22 123 41 67</a><br>pon–pt, 9:00–18:00</p>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div>
+                <h3>E-mail</h3>
+                <p><a href="mailto:kontakt@travelagency.pl">kontakt@travelagency.pl</a></p>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div>
+                <h3>Godziny pracy</h3>
+                <p>Pon – Pt: 9:00 – 18:00<br>Sobota: 10:00 – 14:00<br>Niedziela: zamknięte</p>
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <div style="font-size:1.1rem;font-weight:700;color:#fff;">✈ <span style="color:#4a90e2;">Travel</span>Agency</div>
+            <p>Twoje wymarzone wakacje zaczynają się tutaj. Tysiące ofert w najlepszych cenach.</p>
+        </div>
+        <div class="footer-col">
+            <ul>
+                <li><a href="index.html">Strona główna</a></li>
+                <li><a href="offers.html">Oferty</a></li>
+                <li><a href="contact.html">Kontakt</a></li>
+                <li><a href="statute.html">Regulamin</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <ul>
+                <li><a href="mailto:kontakt@travelagency.pl">kontakt@travelagency.pl</a></li>
+                <li><a href="tel:+48221234567">+48 22 123 45 67</a></li>
+                <li>ul. Podróżnicza 15, Warszawa</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script>
+
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const fields = ['name', 'email', 'subject', 'message'];
+        let valid = true;
+
+        fields.forEach(id => {
+            const el = document.getElementById(id);
+            if (!el.value.trim()) {
+                el.style.borderColor = '#e07070';
+                valid = false;
+            } else {
+                el.style.borderColor = '';
+            }
+        });
+
+        const emailEl = document.getElementById('email');
+        if (emailEl.value && !emailEl.checkValidity()) {
+            emailEl.style.borderColor = '#e07070';
+            valid = false;
+        }
+
+        if (valid) {
+            this.reset();
+            const msg = document.getElementById('formSuccess');
+            msg.style.display = 'block';
+            setTimeout(() => msg.style.display = 'none', 5000);
+        }
+    });
+
+
+</script>
+
+</body>
+</html>

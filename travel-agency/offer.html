@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oferta | TravelAgency</title>
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body { font-family: 'Segoe UI', sans-serif; background: #0f1623; color: #e2e8f0; min-height: 100vh; }
+
+    header { background: #1a2236; border-bottom: 1px solid #2a3450; position: sticky; top: 0; z-index: 100; }
+    nav { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; height: 62px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 1.2rem; font-weight: 700; color: #fff; text-decoration: none; }
+    .nav-logo span { color: #4a90e2; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: #a0aec0; text-decoration: none; font-size: 0.95rem; }
+    .nav-links a:hover, .nav-links a.active { color: #fff; }
+    .nav-btn { background: #4a90e2; color: #fff; padding: 8px 18px; border-radius: 8px; font-size: 0.9rem; text-decoration: none; }
+    .nav-btn:hover { background: #357abd; }
+
+    main { max-width: 1100px; margin: 2rem auto 4rem; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 300px; gap: 2rem; align-items: start; }
+
+    .offer-hero-img { width: 100%; height: 400px; object-fit: cover; border-radius: 14px; display: block; margin-bottom: 1.5rem; background: #1a2236; }
+
+    .offer-badge { display: inline-block; background: #4a90e2; color: #fff; font-size: 0.78rem; font-weight: 600; padding: 3px 12px; border-radius: 20px; margin-bottom: 0.75rem; }
+    .offer-badge.red   { background: #e05050; }
+    .offer-badge.green { background: #38a169; }
+
+    .offer-title { font-size: 1.9rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+    .offer-stars { color: #f6ad55; font-size: 1.1rem; margin-bottom: 1.5rem; }
+
+    .offer-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.75rem; }
+    .info-box { background: #1a2236; border: 1px solid #2a3450; border-radius: 10px; padding: 1rem; text-align: center; }
+    .info-box .etykieta { font-size: 0.75rem; color: #718096; text-transform: uppercase; letter-spacing: .05em; }
+    .info-box .wartosc  { font-size: 0.95rem; color: #fff; font-weight: 600; margin-top: 0.3rem; }
+
+    .offer-section-title { font-size: 0.82rem; font-weight: 700; color: #4a90e2; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 0.75rem; }
+    .offer-desc { font-size: 0.95rem; color: #a0aec0; line-height: 1.8; margin-bottom: 2rem; }
+
+    .included-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 2rem; }
+    .included-list li { display: flex; align-items: center; gap: 0.75rem; font-size: 0.93rem; color: #e2e8f0; }
+    .included-list li::before { content: '✓'; color: #38a169; font-weight: 700; flex-shrink: 0; }
+
+    .price-card { background: #1a2236; border: 1px solid #2a3450; border-radius: 14px; padding: 1.75rem; position: sticky; top: 80px; }
+    .price-main { font-size: 2.2rem; font-weight: 700; color: #4a90e2; margin-bottom: 0.25rem; }
+    .price-sub  { font-size: 0.85rem; color: #718096; margin-bottom: 1.5rem; }
+
+    .price-row { display: flex; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid #2a3450; font-size: 0.88rem; color: #a0aec0; }
+    .price-row:last-of-type { border-bottom: none; margin-bottom: 1.25rem; }
+    .price-row strong { color: #e2e8f0; }
+
+    .btn-rezerwuj { width: 100%; padding: 13px; background: #4a90e2; color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background .2s; }
+    .btn-rezerwuj:hover { background: #357abd; }
+
+    .rezerwacja-sukces { display: none; margin-top: 1rem; background: rgba(30,132,73,0.15); border: 1px solid rgba(30,132,73,0.35); color: #68d391; padding: 12px; border-radius: 8px; font-size: 0.88rem; text-align: center; line-height: 1.5; }
+    .price-card .uwaga { margin-top: 1rem; font-size: 0.78rem; color: #4a5568; text-align: center; }
+
+    footer { background: #1a2236; border-top: 1px solid #2a3450; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem; }
+    .footer-brand p { color: #718096; font-size: 0.88rem; line-height: 1.6; margin-top: 0.5rem; }
+    .footer-logo { font-size: 1.1rem; font-weight: 700; color: #fff; }
+    .footer-logo span { color: #4a90e2; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+    .footer-col a { color: #718096; text-decoration: none; font-size: 0.88rem; }
+    .footer-col a:hover { color: #fff; }
+</style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="index.html" class="nav-logo">✈ <span>Travel</span>Agency</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Strona główna</a></li>
+            <li><a href="offers.html" class="active">Oferty</a></li>
+            <li><a href="contact.html">Kontakt</a></li>
+            <li><a href="statute.html">Regulamin</a></li>
+            <li><a href="profile.php">Profil</a></li>
+        </ul>
+        <a href="logout.php" class="nav-btn">Wyloguj</a>
+    </nav>
+</header>
+
+<main>
+    <div>
+        <img id="ofertaZdjecie" class="offer-hero-img" src="" alt="">
+        <span id="ofertaBadge" class="offer-badge"></span>
+        <h1 id="ofertaNazwa" class="offer-title"></h1>
+        <div id="ofertaGwiazdki" class="offer-stars"></div>
+
+        <div class="offer-info-grid">
+            <div class="info-box">
+                <div class="etykieta">Czas trwania</div>
+                <div id="infoDni" class="wartosc"></div>
+            </div>
+            <div class="info-box">
+                <div class="etykieta">Wyzywienie</div>
+                <div id="infoWyzywienie" class="wartosc"></div>
+            </div>
+            <div class="info-box">
+                <div class="etykieta">Wylot z</div>
+                <div id="infoLotnisko" class="wartosc"></div>
+            </div>
+        </div>
+
+        <div class="offer-section-title">Opis oferty</div>
+        <p id="ofertaOpis" class="offer-desc"></p>
+
+        <div class="offer-section-title">Co jest wliczone w cene</div>
+        <ul id="ofertaWlaczone" class="included-list"></ul>
+    </div>
+
+    <div class="price-card">
+        <div id="cardCena" class="price-main"></div>
+        <div class="price-sub">cena za osobe</div>
+        <div class="price-row"><span>Czas trwania</span><strong id="cardDni"></strong></div>
+        <div class="price-row"><span>Wyzywienie</span><strong id="cardWyzywienie"></strong></div>
+        <div class="price-row"><span>Wylot z</span><strong id="cardLotnisko"></strong></div>
+        <button class="btn-rezerwuj" onclick="zarezerwuj()">Zarezerwuj teraz</button>
+        <div class="rezerwacja-sukces" id="rezerwacjaSukces">
+            Dziekujemy za zainteresowanie!<br>
+            Nasz konsultant skontaktuje sie z Toba w ciagu 24 godzin.
+        </div>
+        <p class="uwaga">Brak ukrytych oplat. Cena obejmuje wszystko co zaznaczono powyzej.</p>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <div class="footer-logo">✈ <span>Travel</span>Agency</div>
+            <p>Twoje wymarzone wakacje zaczynaja sie tutaj. Tysiace ofert w najlepszych cenach.</p>
+        </div>
+        <div class="footer-col">
+            <ul>
+                <li><a href="index.html">Strona glowna</a></li>
+                <li><a href="offers.html">Oferty</a></li>
+                <li><a href="contact.html">Kontakt</a></li>
+                <li><a href="statute.html">Regulamin</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <ul>
+                <li><a href="mailto:kontakt@travelagency.pl">kontakt@travelagency.pl</a></li>
+                <li><a href="tel:+48221234567">+48 22 123 45 67</a></li>
+                <li>ul. Podroznicza 15, Warszawa</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script src="js/oferty.js"></script>
+<script>
+    var params = new URLSearchParams(window.location.search);
+    var id     = parseInt(params.get('id'));
+
+    // Znajdz oferte po id
+    var oferta = null;
+    for (var i = 0; i < OFERTY.length; i++) {
+        if (OFERTY[i].id === id) { oferta = OFERTY[i]; break; }
+    }
+
+    if (!oferta) {
+        window.location.href = 'offers.html';
+    } else {
+        document.title = oferta.nazwa + ' | TravelAgency';
+
+        document.getElementById('ofertaZdjecie').src          = oferta.zdjecie;
+        document.getElementById('ofertaZdjecie').alt          = oferta.nazwa;
+        document.getElementById('ofertaNazwa').textContent    = oferta.nazwa;
+        document.getElementById('ofertaGwiazdki').textContent = oferta.gwiazdki;
+        document.getElementById('ofertaOpis').textContent     = oferta.opis;
+
+        var badge = document.getElementById('ofertaBadge');
+        badge.textContent = oferta.badge;
+        if (oferta.badgeKolor === 'red')   badge.classList.add('red');
+        if (oferta.badgeKolor === 'green') badge.classList.add('green');
+
+        document.getElementById('infoDni').textContent        = oferta.dni + ' dni';
+        document.getElementById('infoWyzywienie').textContent = oferta.wyzywienie;
+        document.getElementById('infoLotnisko').textContent   = oferta.lotnisko;
+        document.getElementById('cardCena').textContent       = oferta.cena.toLocaleString('pl-PL') + ' zl';
+        document.getElementById('cardDni').textContent        = oferta.dni + ' dni';
+        document.getElementById('cardWyzywienie').textContent = oferta.wyzywienie;
+        document.getElementById('cardLotnisko').textContent   = oferta.lotnisko;
+
+        var lista = document.getElementById('ofertaWlaczone');
+        oferta.wlaczone.forEach(function(rzecz) {
+            var li = document.createElement('li');
+            li.textContent = rzecz;
+            lista.appendChild(li);
+        });
+    }
+
+    function zarezerwuj() {
+        document.getElementById('rezerwacjaSukces').style.display = 'block';
+        var btn = document.querySelector('.btn-rezerwuj');
+        btn.disabled = true;
+        btn.textContent = 'Wyslano zapytanie';
+        btn.style.background = '#38a169';
+    }
+</script>
+
+</body>
+</html>

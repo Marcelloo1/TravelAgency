@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona Główna | TravelAgency</title>
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body { font-family: 'Segoe UI', sans-serif; background: #0f1623; color: #e2e8f0; min-height: 100vh; }
+
+    header { background: #1a2236; border-bottom: 1px solid #2a3450; position: sticky; top: 0; z-index: 100; }
+    nav { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; height: 62px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 1.2rem; font-weight: 700; color: #fff; text-decoration: none; }
+    .nav-logo span { color: #4a90e2; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: #a0aec0; text-decoration: none; font-size: 0.95rem; }
+    .nav-links a:hover, .nav-links a.active { color: #fff; }
+    .nav-btn { background: #4a90e2; color: #fff; padding: 8px 18px; border-radius: 8px; font-size: 0.9rem; text-decoration: none; }
+    .nav-btn:hover { background: #357abd; }
+
+    .hero { position: relative; height: 500px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+    #heroCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-content h1 { font-size: 3rem; font-weight: 700; color: #fff; margin-bottom: 1rem; }
+    .hero-content h1 span { color: #4a90e2; }
+    .hero-content p { font-size: 1.1rem; color: #a0aec0; margin-bottom: 2rem; }
+    .btn-hero { background: #4a90e2; color: #fff; padding: 14px 32px; border-radius: 10px; font-size: 1rem; font-weight: 600; text-decoration: none; }
+    .btn-hero:hover { background: #357abd; }
+
+    .featured-offers { max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem; }
+    .section-title { font-size: 1.6rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+    .section-sub { color: #718096; font-size: 0.93rem; margin-bottom: 2rem; }
+
+    .offers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .offer-card { background: #1a2236; border: 1px solid #2a3450; border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.2s; }
+    .offer-card:hover { border-color: #4a90e2; transform: translateY(-4px); }
+    .card-img { width: 100%; height: 180px; position: relative; overflow: hidden; }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
+    .offer-card:hover .card-img img { transform: scale(1.05); }
+    .card-badge { position: absolute; top: 10px; left: 10px; background: #4a90e2; color: #fff; font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; z-index: 1; }
+    .card-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
+    .card-title { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 0.4rem; }
+    .card-desc { font-size: 0.85rem; color: #718096; margin-bottom: 1rem; line-height: 1.5; flex: 1; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; }
+    .card-price { font-size: 1.2rem; font-weight: 700; color: #4a90e2; }
+    .card-price span { font-size: 0.8rem; color: #718096; font-weight: 400; }
+    .btn-card { background: #4a90e2; color: #fff; padding: 7px 16px; border-radius: 8px; font-size: 0.85rem; text-decoration: none; }
+    .btn-card:hover { background: #357abd; }
+    .btn-all { display: block; text-align: center; margin: 2rem auto 0; padding: 12px 32px; border: 1px solid #4a90e2; color: #4a90e2; border-radius: 10px; text-decoration: none; font-size: 0.95rem; width: fit-content; }
+    .btn-all:hover { background: #4a90e2; color: #fff; }
+
+    .why-us { background: #1a2236; border-top: 1px solid #2a3450; border-bottom: 1px solid #2a3450; padding: 3rem 1.5rem; }
+    .why-us-inner { max-width: 1100px; margin: 0 auto; }
+    .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 2rem; }
+    .why-box { background: #0f1623; border: 1px solid #2a3450; border-radius: 12px; padding: 1.75rem 1.5rem; text-align: center; }
+    .why-box h3 { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 0.5rem; }
+    .why-box p { font-size: 0.87rem; color: #718096; line-height: 1.6; }
+
+    .stats { max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; text-align: center; }
+    .stat-box { background: #1a2236; border: 1px solid #2a3450; border-radius: 12px; padding: 2rem; }
+    .stat-number { font-size: 2.8rem; font-weight: 700; color: #4a90e2; }
+    .stat-label { font-size: 0.9rem; color: #718096; margin-top: 0.4rem; }
+
+    .testimonials { background: #1a2236; border-top: 1px solid #2a3450; border-bottom: 1px solid #2a3450; padding: 3rem 1.5rem; }
+    .testimonials-inner { max-width: 1100px; margin: 0 auto; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
+    .testimonial-card { background: #0f1623; border: 1px solid #2a3450; border-radius: 12px; padding: 1.5rem; }
+    .testimonial-stars { color: #f6ad55; font-size: 1rem; margin-bottom: 0.75rem; }
+    .testimonial-text { font-size: 0.9rem; color: #a0aec0; line-height: 1.7; margin-bottom: 1rem; font-style: italic; }
+    .testimonial-author { font-size: 0.85rem; color: #fff; font-weight: 600; }
+    .testimonial-place { font-size: 0.8rem; color: #718096; }
+
+    footer { background: #1a2236; border-top: 1px solid #2a3450; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem; }
+    .footer-brand p { color: #718096; font-size: 0.88rem; line-height: 1.6; margin-top: 0.5rem; }
+    .footer-logo { font-size: 1.1rem; font-weight: 700; color: #fff; }
+    .footer-logo span { color: #4a90e2; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+    .footer-col a { color: #718096; text-decoration: none; font-size: 0.88rem; }
+    .footer-col a:hover { color: #fff; }
+</style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="index.html" class="nav-logo">✈ <span>Travel</span>Agency</a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Strona główna</a></li>
+            <li><a href="offers.html">Oferty</a></li>
+            <li><a href="contact.html">Kontakt</a></li>
+            <li><a href="statute.html">Regulamin</a></li>
+            <li><a href="profile.php">Profil</a></li>
+        </ul>
+        <a href="logout.php" class="nav-btn">Wyloguj</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <canvas id="heroCanvas"></canvas>
+    <div class="hero-content">
+        <h1>Odkryj świat z <span>TravelAgency</span></h1>
+        <p>Tysiące ofert wakacyjnych w najlepszych cenach. Zarezerwuj już dziś!</p>
+        <a href="offers.html" class="btn-hero">Zobacz oferty</a>
+    </div>
+</section>
+
+<section class="featured-offers">
+    <h2 class="section-title">Polecane oferty</h2>
+    <p class="section-sub">Sprawdź nasze najpopularniejsze wyjazdy</p>
+    <div class="offers-grid">
+
+        <a href="offer.html?id=1" class="offer-card">
+            <div class="card-img">
+                <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=400&h=200&fit=crop" alt="Grecja Santorini">
+                <span class="card-badge">Last Minute</span>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Grecja – Santorini</div>
+                <div class="card-desc">7 dni, all inclusive, hotel 5 gwiazdek, plaża na wyciągnięcie ręki</div>
+                <div class="card-footer">
+                    <div class="card-price">2 499 zł <span>/ os.</span></div>
+                    <span class="btn-card">Zobacz</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="offer.html?id=2" class="offer-card">
+            <div class="card-img">
+                <img src="https://images.unsplash.com/photo-1553913861-c0fddf2619ee?w=400&h=200&fit=crop" alt="Egipt Hurghada">
+                <span class="card-badge">Bestseller</span>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Egipt – Hurghada</div>
+                <div class="card-desc">10 dni, all inclusive, hotel 4 gwiazdki, nurkowanie w Morzu Czerwonym</div>
+                <div class="card-footer">
+                    <div class="card-price">1 899 zł <span>/ os.</span></div>
+                    <span class="btn-card">Zobacz</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="offer.html?id=3" class="offer-card">
+            <div class="card-img">
+                <img src="https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=400&h=200&fit=crop" alt="Turcja Antalya">
+                <span class="card-badge">Promocja</span>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Turcja – Antalya</div>
+                <div class="card-desc">7 dni, all inclusive, hotel 5 gwiazdek, basen i animacje dla dzieci</div>
+                <div class="card-footer">
+                    <div class="card-price">1 699 zł <span>/ os.</span></div>
+                    <span class="btn-card">Zobacz</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="offer.html?id=4" class="offer-card">
+            <div class="card-img">
+                <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=400&h=200&fit=crop" alt="Hiszpania Teneryfa">
+                <span class="card-badge">Nowość</span>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Hiszpania – Teneryfa</div>
+                <div class="card-desc">14 dni, śniadania, hotel 4 gwiazdki, wulkaniczne plaże i słońce</div>
+                <div class="card-footer">
+                    <div class="card-price">3 199 zł <span>/ os.</span></div>
+                    <span class="btn-card">Zobacz</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="offer.html?id=5" class="offer-card">
+            <div class="card-img">
+                <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=400&h=200&fit=crop" alt="Włochy Sycylia">
+                <span class="card-badge">Polecane</span>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Włochy – Sycylia</div>
+                <div class="card-desc">7 dni, half board, hotel 4 gwiazdki, zabytki i włoska kuchnia</div>
+                <div class="card-footer">
+                    <div class="card-price">2 299 zł <span>/ os.</span></div>
+                    <span class="btn-card">Zobacz</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="offer.html?id=6" class="offer-card">
+            <div class="card-img">
+                <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&h=200&fit=crop" alt="Tajlandia Phuket">
+                <span class="card-badge">Egzotyka</span>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Tajlandia – Phuket</div>
+                <div class="card-desc">14 dni, śniadania, hotel 5 gwiazdek, tropikalne plaże i świątynie</div>
+                <div class="card-footer">
+                    <div class="card-price">4 999 zł <span>/ os.</span></div>
+                    <span class="btn-card">Zobacz</span>
+                </div>
+            </div>
+        </a>
+
+    </div>
+    <a href="offers.html" class="btn-all">Zobacz wszystkie oferty</a>
+</section>
+
+<section class="why-us">
+    <div class="why-us-inner">
+        <h2 class="section-title">Dlaczego my?</h2>
+        <p class="section-sub">Kilka powodów, dla których warto nam zaufać</p>
+        <div class="why-grid">
+            <div class="why-box">
+                <h3>Najlepsze ceny</h3>
+                <p>Gwarantujemy najniższe ceny na rynku. Jeśli znajdziesz taniej – zwrócimy różnicę.</p>
+            </div>
+            <div class="why-box">
+                <h3>Bezpieczna rezerwacja</h3>
+                <p>Wszystkie płatności są szyfrowane. Twoje dane są w pełni bezpieczne.</p>
+            </div>
+            <div class="why-box">
+                <h3>Wsparcie 24/7</h3>
+                <p>Nasz zespół jest dostępny przez całą dobę, 7 dni w tygodniu.</p>
+            </div>
+            <div class="why-box">
+                <h3>Tysiące destynacji</h3>
+                <p>Ponad 500 kierunków na całym świecie – od plażowych kurortów po egzotykę.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="stats">
+    <div class="stat-box">
+        <div class="stat-number" data-target="12500">0</div>
+        <div class="stat-label">Zadowolonych klientów</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-number" data-target="500">0</div>
+        <div class="stat-label">Destynacji na świecie</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-number" data-target="15">0</div>
+        <div class="stat-label">Lat doświadczenia</div>
+    </div>
+</section>
+
+<section class="testimonials">
+    <div class="testimonials-inner">
+        <h2 class="section-title">Opinie klientów</h2>
+        <p class="section-sub">Co mówią nasi zadowoleni klienci</p>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Niesamowity wyjazd! Wszystko było dopięte na ostatni guzik. Grecja okazała się bajkowym miejscem. Na pewno wrócimy!"</p>
+                <div class="testimonial-author">Anna Kowalska</div>
+                <div class="testimonial-place">Grecja – Santorini</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Egipt przerósł nasze oczekiwania. Hotel świetny, obsługa pomocna. Cena za tę jakość jest naprawdę uczciwa!"</p>
+                <div class="testimonial-author">Marek Nowak</div>
+                <div class="testimonial-place">Egipt – Hurghada</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★☆</div>
+                <p class="testimonial-text">"Polecam każdemu! Rezerwacja przebiegła sprawnie, a wyjazd do Turcji był wspaniały. Dzieci zachwycone!"</p>
+                <div class="testimonial-author">Katarzyna Wiśniewska</div>
+                <div class="testimonial-place">Turcja – Antalya</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <div class="footer-logo">✈ <span>Travel</span>Agency</div>
+            <p>Twoje wymarzone wakacje zaczynają się tutaj. Tysiące ofert w najlepszych cenach.</p>
+        </div>
+        <div class="footer-col">
+            <ul>
+                <li><a href="index.html">Strona główna</a></li>
+                <li><a href="offers.html">Oferty</a></li>
+                <li><a href="contact.html">Kontakt</a></li>
+                <li><a href="statute.html">Regulamin</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <ul>
+                <li><a href="mailto:kontakt@travelagency.pl">kontakt@travelagency.pl</a></li>
+                <li><a href="tel:+48221234567">+48 22 123 45 67</a></li>
+                <li>ul. Podróżnicza 15, Warszawa</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script src="js/main.js"></script>
+
+</body>
+</html>

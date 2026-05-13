@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oferty | TravelAgency</title>
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body { font-family: 'Segoe UI', sans-serif; background: #0f1623; color: #e2e8f0; min-height: 100vh; }
+
+    header { background: #1a2236; border-bottom: 1px solid #2a3450; position: sticky; top: 0; z-index: 100; }
+    nav { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; height: 62px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 1.2rem; font-weight: 700; color: #fff; text-decoration: none; }
+    .nav-logo span { color: #4a90e2; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: #a0aec0; text-decoration: none; font-size: 0.95rem; }
+    .nav-links a:hover, .nav-links a.active { color: #fff; }
+    .nav-btn { background: #4a90e2; color: #fff; padding: 8px 18px; border-radius: 8px; font-size: 0.9rem; text-decoration: none; }
+    .nav-btn:hover { background: #357abd; }
+
+    .page-header { background: linear-gradient(135deg, #1a2236 0%, #0f1623 100%); border-bottom: 1px solid #2a3450; padding: 3rem 1.5rem 2.5rem; text-align: center; }
+    .page-header h1 { font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+    .page-header p { color: #a0aec0; font-size: 0.95rem; }
+
+    .offers-page { max-width: 1100px; margin: 2.5rem auto; padding: 0 1.5rem 4rem; display: grid; grid-template-columns: 250px 1fr; gap: 2rem; align-items: start; }
+
+    .filters-sidebar { background: #1a2236; border: 1px solid #2a3450; border-radius: 12px; padding: 1.5rem; }
+    .filters-sidebar h2 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: .07em; color: #4a90e2; margin-bottom: 1.25rem; }
+    .filter-group { margin-bottom: 1.25rem; }
+    .filter-group label { display: block; font-size: 0.83rem; color: #a0aec0; margin-bottom: 5px; }
+    .filter-group select,
+    .filter-group input[type="range"] { width: 100%; padding: 8px 10px; background: #0f1623; border: 1px solid #2a3450; border-radius: 8px; color: #e2e8f0; font-size: 0.88rem; }
+    .filter-group select:focus { outline: none; border-color: #4a90e2; }
+    .price-display { font-size: 0.82rem; color: #4a90e2; margin-top: 4px; }
+    .checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; color: #a0aec0; cursor: pointer; }
+    .checkbox-label input { accent-color: #4a90e2; width: 15px; height: 15px; }
+    .btn-filter { width: 100%; padding: 10px; background: #4a90e2; color: #fff; border: none; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; margin-top: 0.5rem; }
+    .btn-filter:hover { background: #357abd; }
+    .btn-reset { width: 100%; padding: 8px; background: none; color: #718096; border: 1px solid #2a3450; border-radius: 8px; font-size: 0.85rem; cursor: pointer; margin-top: 0.5rem; }
+    .btn-reset:hover { color: #fff; border-color: #4a90e2; }
+
+    .sort-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+    .results-count { font-size: 0.88rem; color: #718096; }
+    .sort-bar select { padding: 7px 10px; background: #1a2236; border: 1px solid #2a3450; border-radius: 8px; color: #e2e8f0; font-size: 0.85rem; }
+
+    .offers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+
+    .offer-card { background: #1a2236; border: 1px solid #2a3450; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.2s; text-decoration: none; color: inherit; }
+    .offer-card:hover { border-color: #4a90e2; transform: translateY(-4px); }
+    .card-img { height: 160px; position: relative; overflow: hidden; }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
+    .offer-card:hover .card-img img { transform: scale(1.05); }
+    .card-badge { position: absolute; top: 10px; left: 10px; background: #4a90e2; color: #fff; font-size: 0.72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; z-index: 1; }
+    .card-badge.red   { background: #e05050; }
+    .card-badge.green { background: #38a169; }
+    .card-body { padding: 1rem; flex: 1; display: flex; flex-direction: column; }
+    .card-stars { color: #f6ad55; font-size: 0.8rem; margin-bottom: 0.4rem; }
+    .card-title { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
+    .card-info { display: flex; gap: 0.6rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+    .card-info span { font-size: 0.76rem; color: #718096; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 0.75rem; border-top: 1px solid #2a3450; }
+    .card-price { font-size: 1.1rem; font-weight: 700; color: #4a90e2; }
+    .card-price small { font-size: 0.75rem; color: #718096; font-weight: 400; }
+    .btn-card { background: #4a90e2; color: #fff; padding: 7px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; }
+
+    .brak-wynikow { display: none; grid-column: 1 / -1; text-align: center; padding: 3rem; color: #718096; }
+
+    .pagination { display: flex; justify-content: center; gap: 0.5rem; margin-top: 2rem; }
+    .pagination button { padding: 7px 14px; background: #1a2236; border: 1px solid #2a3450; border-radius: 8px; color: #a0aec0; font-size: 0.88rem; cursor: pointer; }
+    .pagination button:hover, .pagination button.aktywna { background: #4a90e2; color: #fff; border-color: #4a90e2; }
+
+    footer { background: #1a2236; border-top: 1px solid #2a3450; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem; }
+    .footer-brand p { color: #718096; font-size: 0.88rem; line-height: 1.6; margin-top: 0.5rem; }
+    .footer-logo { font-size: 1.1rem; font-weight: 700; color: #fff; }
+    .footer-logo span { color: #4a90e2; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+    .footer-col a { color: #718096; text-decoration: none; font-size: 0.88rem; }
+    .footer-col a:hover { color: #fff; }
+</style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="index.html" class="nav-logo">✈ <span>Travel</span>Agency</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Strona główna</a></li>
+            <li><a href="offers.html" class="active">Oferty</a></li>
+            <li><a href="contact.html">Kontakt</a></li>
+            <li><a href="statute.html">Regulamin</a></li>
+            <li><a href="profile.php">Profil</a></li>
+        </ul>
+        <a href="logout.php" class="nav-btn">Wyloguj</a>
+    </nav>
+</header>
+
+<div class="page-header">
+    <h1>Nasze oferty</h1>
+    <p>Znajdź wymarzone wakacje spośród 27 destynacji</p>
+</div>
+
+<main class="offers-page">
+
+    <aside class="filters-sidebar">
+        <h2>Filtry</h2>
+
+        <div class="filter-group">
+            <label>Destynacja</label>
+            <select id="filterDestination">
+                <option value="">Wszystkie</option>
+                <option value="grecja">Grecja</option>
+                <option value="egipt">Egipt</option>
+                <option value="turcja">Turcja</option>
+                <option value="hiszpania">Hiszpania</option>
+                <option value="wlochy">Włochy</option>
+                <option value="tajlandia">Tajlandia</option>
+                <option value="portugalia">Portugalia</option>
+                <option value="chorwacja">Chorwacja</option>
+                <option value="maroko">Maroko</option>
+                <option value="indonezja">Bali</option>
+                <option value="malediwy">Malediwy</option>
+                <option value="dubaj">Dubaj</option>
+                <option value="francja">Francja</option>
+                <option value="czechy">Czechy</option>
+                <option value="austria">Austria</option>
+                <option value="japonia">Japonia</option>
+                <option value="usa">USA</option>
+                <option value="islandia">Islandia</option>
+                <option value="norwegia">Norwegia</option>
+                <option value="kenia">Kenia</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Maks. cena: <span class="price-display" id="priceVal">10 000 zł</span></label>
+            <input type="range" id="priceRange" min="500" max="10000" step="100" value="10000">
+        </div>
+
+        <div class="filter-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="filterLastminute">
+                Tylko Last Minute
+            </label>
+        </div>
+
+        <button class="btn-filter" onclick="zastosujFiltry()">Szukaj</button>
+        <button class="btn-reset"  onclick="resetujFiltry()">Wyczyść</button>
+    </aside>
+
+    <section>
+        <div class="sort-bar">
+            <span class="results-count" id="licznikWynikow">Znaleziono <strong>27</strong> ofert</span>
+            <select id="sortowanie" onchange="zastosujFiltry()">
+                <option value="domyslne">Domyślnie</option>
+                <option value="cena-asc">Cena: rosnąco</option>
+                <option value="cena-desc">Cena: malejąco</option>
+            </select>
+        </div>
+
+        <div class="offers-grid" id="offersGrid">
+            <div class="brak-wynikow" id="brakWynikow">Brak ofert spełniających kryteria.</div>
+        </div>
+
+        <div class="pagination" id="paginacja"></div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <div class="footer-logo">✈ <span>Travel</span>Agency</div>
+            <p>Twoje wymarzone wakacje zaczynają się tutaj. Tysiące ofert w najlepszych cenach.</p>
+        </div>
+        <div class="footer-col">
+            <ul>
+                <li><a href="index.html">Strona główna</a></li>
+                <li><a href="offers.html">Oferty</a></li>
+                <li><a href="contact.html">Kontakt</a></li>
+                <li><a href="statute.html">Regulamin</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <ul>
+                <li><a href="mailto:kontakt@travelagency.pl">kontakt@travelagency.pl</a></li>
+                <li><a href="tel:+48221234567">+48 22 123 45 67</a></li>
+                <li>ul. Podróżnicza 15, Warszawa</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script src="js/oferty.js"></script>
+<script>
+    var OFERT_NA_STRONE = 9;
+    var aktualnaStrona  = 1;
+    var przefiltrowane  = OFERTY.slice();
+
+    document.getElementById('priceRange').addEventListener('input', function() {
+        document.getElementById('priceVal').textContent = Number(this.value).toLocaleString('pl-PL') + ' zł';
+    });
+
+    function zastosujFiltry() {
+        var destination = document.getElementById('filterDestination').value;
+        var maxCena     = parseInt(document.getElementById('priceRange').value);
+        var lastminute  = document.getElementById('filterLastminute').checked;
+        var sortowanie  = document.getElementById('sortowanie').value;
+
+        przefiltrowane = OFERTY.filter(function(o) {
+            if (destination !== '' && o.destination !== destination) return false;
+            if (o.cena > maxCena) return false;
+            if (lastminute && !o.lastminute) return false;
+            return true;
+        });
+
+        if (sortowanie === 'cena-asc')  przefiltrowane.sort(function(a, b) { return a.cena - b.cena; });
+        if (sortowanie === 'cena-desc') przefiltrowane.sort(function(a, b) { return b.cena - a.cena; });
+
+        aktualnaStrona = 1;
+        pokazStrone();
+    }
+
+    function pokazStrone() {
+        var siatka = document.getElementById('offersGrid');
+        var brak   = document.getElementById('brakWynikow');
+
+        siatka.innerHTML = '';
+        siatka.appendChild(brak);
+
+        if (przefiltrowane.length === 0) {
+            brak.style.display = 'block';
+            document.getElementById('licznikWynikow').innerHTML = 'Znaleziono <strong>0</strong> ofert';
+            document.getElementById('paginacja').innerHTML = '';
+            return;
+        }
+
+        brak.style.display = 'none';
+        document.getElementById('licznikWynikow').innerHTML = 'Znaleziono <strong>' + przefiltrowane.length + '</strong> ofert';
+
+        var start  = (aktualnaStrona - 1) * OFERT_NA_STRONE;
+        var koniec = Math.min(start + OFERT_NA_STRONE, przefiltrowane.length);
+
+        for (var i = start; i < koniec; i++) {
+            siatka.appendChild(tworzKarte(przefiltrowane[i]));
+        }
+
+        tworzPaginacje();
+    }
+
+    function tworzKarte(o) {
+        var link = document.createElement('a');
+        link.href      = 'offer.html?id=' + o.id;
+        link.className = 'offer-card';
+
+        link.innerHTML =
+            '<div class="card-img">' +
+                '<img src="' + o.zdjecie + '" alt="' + o.nazwa + '" loading="lazy">' +
+                '<span class="card-badge ' + o.badgeKolor + '">' + o.badge + '</span>' +
+            '</div>' +
+            '<div class="card-body">' +
+                '<div class="card-stars">' + o.gwiazdki + '</div>' +
+                '<div class="card-title">' + o.nazwa + '</div>' +
+                '<div class="card-info">' +
+                    '<span>' + o.dni + ' dni</span>' +
+                    '<span>' + o.wyzywienie + '</span>' +
+                    '<span>Wylot: ' + o.lotnisko + '</span>' +
+                '</div>' +
+                '<div class="card-footer">' +
+                    '<div class="card-price">' + o.cena.toLocaleString('pl-PL') + ' zł <small>/ os.</small></div>' +
+                    '<span class="btn-card">Zobacz ofertę</span>' +
+                '</div>' +
+            '</div>';
+
+        return link;
+    }
+
+    function tworzPaginacje() {
+        var paginacja   = document.getElementById('paginacja');
+        var liczbaStron = Math.ceil(przefiltrowane.length / OFERT_NA_STRONE);
+        paginacja.innerHTML = '';
+
+        if (liczbaStron <= 1) return;
+
+        for (var s = 1; s <= liczbaStron; s++) {
+            var btn = document.createElement('button');
+            btn.textContent = s;
+            if (s === aktualnaStrona) btn.classList.add('aktywna');
+
+            btn.addEventListener('click', (function(strona) {
+                return function() {
+                    aktualnaStrona = strona;
+                    pokazStrone();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                };
+            })(s));
+
+            paginacja.appendChild(btn);
+        }
+    }
+
+    function resetujFiltry() {
+        document.getElementById('filterDestination').value  = '';
+        document.getElementById('priceRange').value         = 10000;
+        document.getElementById('filterLastminute').checked = false;
+        document.getElementById('priceVal').textContent     = '10 000 zł';
+        document.getElementById('sortowanie').value         = 'domyslne';
+        zastosujFiltry();
+    }
+
+    zastosujFiltry();
+</script>
+
+</body>
+</html>
